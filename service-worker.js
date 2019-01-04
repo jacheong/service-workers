@@ -29,7 +29,9 @@ const appShellURLs = [
 
 self.addEventListener('install', event => {
     event.waitUntil(caches.open('static-assets')
-        .then(cache => cache.addAll(appShellURLs))
+        .then(cache => {
+            return cache.addAll(appShellURLs);
+        })
     );
 });
 
@@ -54,6 +56,11 @@ self.addEventListener('fetch', event => {
 /*
 === Read Through Caching ===
 
+const appShellURLs = [
+    "https://fonts.googleapis.com/css?family=Anton",
+    "https://fonts.googleapis.com/icon?family=Material+Icons"
+];
+
 function addToCache(request, response) {
     if (response.ok) {
         const copy = response.clone();
@@ -76,6 +83,10 @@ function findInCache(request) {
 self.addEventListener('install', event => {
     event.waitUntil(caches.open('offline-fallbacks')
         .then(cache => cache.add('offline.html'))
+    );
+
+    event.waitUntil(caches.open('static-assets')
+        .then(cache => cache.addAll(appShellURLs))
     );
 });
 
